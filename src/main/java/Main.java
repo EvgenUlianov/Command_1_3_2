@@ -50,14 +50,23 @@ public class Main {
                     for (int i = commands.size() - 1; i > curCommand ; i--)
                         commands.remove(curCommand);
                 int step = Integer.parseInt(inputCommand);
-                FrogCommand cmd = FrogCommands.jumpRightCommand(frog, step);
-                curCommand++;
-                commands.add(cmd);
-                cmd.doit();
+                FrogCommand cmd = null;
+                if (step > 0) {
+                    cmd = FrogCommands.jumpRightCommand(frog, step);
+                }else if (step < 0) {
+                    cmd = FrogCommands.jumpLeftCommand(frog, -step);
                 }
-            System.out.println(frog.position);
+                try {
+                    assert cmd != null;
+                    cmd.doit();
+                    commands.add(cmd);
+                    curCommand++;
+                } catch (NullPointerException ex) {
+                    ex.printStackTrace();
+                }
+
             }
-
-
+            System.out.println(frog.position);
         }
+    }
 }
